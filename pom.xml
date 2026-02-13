@@ -12,7 +12,7 @@
 	<artifactId>ms-produto</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ms-produto</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Microserviço de Produtos</description>
 	<url/>
 	<licenses>
 		<license/>
