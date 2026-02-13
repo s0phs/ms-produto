@@ -12,7 +12,11 @@ import java.util.List;
 @RequestMapping("/produtos")
 public class ProdutoController {
 
-    @GetMapping
+
+}
+
+/*
+@GetMapping
     public ResponseEntity<List<ProdutoResponseDTO>> getProduto(){
 
         List<ProdutoResponseDTO> dto = ProdutoResponseDTO.createMock();
@@ -25,7 +29,7 @@ public class ProdutoController {
             ProdutoResponseDTO dto = new ProdutoResponseDTO(1L, inputDTO.getNome(), inputDTO.getDescricao(), inputDTO.getValor());
             return ResponseEntity.created(null).body(dto);
     }
-}
+*/
 
 
 
