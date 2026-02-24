@@ -5,6 +5,7 @@ import com.github.s0phs.ms.produto.dto.ProdutoDTO;
 import com.github.s0phs.ms.produto.dto.ProdutoInputDTO;
 import com.github.s0phs.ms.produto.dto.ProdutoResponseDTO;
 import com.github.s0phs.ms.produto.service.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoDTO> createProduto(@RequestBody ProdutoDTO produtoDTO){
+    public ResponseEntity<ProdutoDTO> createProduto(@RequestBody @Valid ProdutoDTO produtoDTO){//@Valid para fazer as validações do DTO
 
         produtoDTO = produtoService.saveProduto(produtoDTO);
 
@@ -52,7 +53,7 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProdutoDTO> updateProduto(@PathVariable Long id, @RequestBody ProdutoDTO produtoDTO){
+    public ResponseEntity<ProdutoDTO> updateProduto(@PathVariable Long id, @RequestBody @Valid ProdutoDTO produtoDTO){
 
         produtoDTO = produtoService.updateProduto(id, produtoDTO);
 
