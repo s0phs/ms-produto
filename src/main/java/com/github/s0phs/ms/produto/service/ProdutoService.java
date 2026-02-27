@@ -2,6 +2,7 @@ package com.github.s0phs.ms.produto.service;
 
 import com.github.s0phs.ms.produto.dto.ProdutoDTO;
 import com.github.s0phs.ms.produto.entities.Produto;
+import com.github.s0phs.ms.produto.exceptions.ResourceNotFoundException;
 import com.github.s0phs.ms.produto.repositories.ProdutoRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -28,7 +29,7 @@ public class ProdutoService {
     public ProdutoDTO findProdutoById(Long id){
 
         Produto produto = produtoRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Recurso não encontrado. ID: " + id)
+                () -> new ResourceNotFoundException("Recurso não encontrado. ID: " + id)
         );
 
         return new ProdutoDTO(produto);
@@ -61,7 +62,7 @@ public class ProdutoService {
             produto = produtoRepository.save(produto);//salva
             return new ProdutoDTO(produto);//retorna o produto modificado
         }catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("Recurso não encontrado. ID: " + id);//caso não exista o produto
+            throw new ResourceNotFoundException("Recurso não encontrado. ID: " + id);//caso não exista o produto
         }
     }
 
@@ -69,7 +70,7 @@ public class ProdutoService {
     public void deleteProdutoById(Long id){
 
         if(!produtoRepository.existsById(id)){
-            throw new EntityNotFoundException("Recurso não encontrado. ID: " + id);
+            throw new ResourceNotFoundException("Recurso não encontrado. ID: " + id);
         }
 
         produtoRepository.deleteById(id);

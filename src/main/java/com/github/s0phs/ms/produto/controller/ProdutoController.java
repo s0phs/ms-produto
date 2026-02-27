@@ -2,8 +2,6 @@ package com.github.s0phs.ms.produto.controller;
 
 
 import com.github.s0phs.ms.produto.dto.ProdutoDTO;
-import com.github.s0phs.ms.produto.dto.ProdutoInputDTO;
-import com.github.s0phs.ms.produto.dto.ProdutoResponseDTO;
 import com.github.s0phs.ms.produto.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
