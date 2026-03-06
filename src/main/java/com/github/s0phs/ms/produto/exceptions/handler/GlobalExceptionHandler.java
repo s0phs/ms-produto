@@ -1,5 +1,6 @@
 package com.github.s0phs.ms.produto.exceptions.handler;
 
+import com.github.s0phs.ms.produto.exceptions.DatabaseException;
 import com.github.s0phs.ms.produto.exceptions.ResourceNotFoundException;
 import com.github.s0phs.ms.produto.exceptions.dto.CustomErrorDTO;
 import com.github.s0phs.ms.produto.exceptions.dto.ValidationErrorDTO;
@@ -60,16 +61,25 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    //500 fallback para qualquer erro não trabalhado
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<CustomErrorDTO> handlerGenericException(Exception e, HttpServletRequest request){
-//
-//        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;//500
-//        CustomErrorDTO err = new CustomErrorDTO(
-//                Instant.now(), status.value(), "Erro interno inesperado.", request.getRequestURI()
-//        );
-//        return ResponseEntity.status(status).body(err);
-//    }
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<CustomErrorDTO> handleDatabase(DatabaseException e, HttpServletRequest request){
+
+        HttpStatus status = HttpStatus.CONFLICT; //409
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(err);
+    }
+
+    //500 fallback para qualquer erro não tratado
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<CustomErrorDTO> handlerGenericException(Exception e, HttpServletRequest request){
+
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;//500
+        CustomErrorDTO err = new CustomErrorDTO(
+                Instant.now(), status.value(), "Erro interno inesperado.", request.getRequestURI()
+        );
+        return ResponseEntity.status(status).body(err);
+    }
 
 
 
