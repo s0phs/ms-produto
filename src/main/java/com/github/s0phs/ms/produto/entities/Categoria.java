@@ -3,6 +3,9 @@ package com.github.s0phs.ms.produto.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -10,20 +13,15 @@ import lombok.*;
 @EqualsAndHashCode(of = "id")
 
 @Entity
-@Table(name = "tb_produto")
-public class Produto {
+@Table(name = "tb_categoria")
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String descricao;
-    private Double valor;
 
     //relacionamento
-    @ManyToOne
-    @JoinColumn(name = "categoria_id", nullable = false)
-    private Categoria categoria;//fk
-
-
+    @OneToMany(mappedBy = "categoria")//essa string precisa ser igual a Categoria na entidade Produto
+    private List<Produto> produtos = new ArrayList<>();
 }

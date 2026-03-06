@@ -60,4 +60,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    //500 fallback para qualquer erro não trabalhado
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<CustomErrorDTO> handlerGenericException(Exception e, HttpServletRequest request){
+//
+//        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;//500
+//        CustomErrorDTO err = new CustomErrorDTO(
+//                Instant.now(), status.value(), "Erro interno inesperado.", request.getRequestURI()
+//        );
+//        return ResponseEntity.status(status).body(err);
+//    }
+
+
+
 }
