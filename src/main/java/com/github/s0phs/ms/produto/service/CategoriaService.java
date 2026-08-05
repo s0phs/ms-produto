@@ -1,12 +1,12 @@
 package com.github.s0phs.ms.produto.service;
 
-import com.github.s0phs.ms.produto.dto.CategoriaDTO;
+import com.github.s0phs.ms.produto.dto.CategoriaRequestDTO;
+import com.github.s0phs.ms.produto.dto.CategoriaResponseDTO;
 import com.github.s0phs.ms.produto.entities.Categoria;
 import com.github.s0phs.ms.produto.exceptions.DatabaseException;
 import com.github.s0phs.ms.produto.exceptions.ResourceNotFoundException;
 import com.github.s0phs.ms.produto.repositories.CategoriaRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -22,43 +22,46 @@ public class CategoriaService {
     private CategoriaRepository categoriaRepository;
 
     @Transactional(readOnly = true)
-    public List<CategoriaDTO> findAllCategorias(){
+    public List<CategoriaResponseDTO> findAllCategorias(){
 
-        return categoriaRepository.findAll().stream().map(CategoriaDTO::new).toList();
+        return categoriaRepository.findAll().stream().map(CategoriaResponseDTO::new).toList();
     }
 
     @Transactional(readOnly = true)
-    public CategoriaDTO findCategoriaById(Long id){
+    public CategoriaResponseDTO findCategoriaById(Long id){
 
         Categoria categoria = categoriaRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso não encontrado. ID: " + id)
         );
 
-        return new CategoriaDTO(categoria);
+        return new CategoriaResponseDTO(categoria);
     }
 
     @Transactional
-    public CategoriaDTO saveCategoria(CategoriaDTO inputDTO){
+    //ATENÇÃO -- passa o REQUEST como parametro
+    public CategoriaResponseDTO saveCategoria(CategoriaRequestDTO inputDTO){
         Categoria categoria = new Categoria();
         copyDtoToCategoria(inputDTO, categoria);
         categoria = categoriaRepository.save(categoria);
 
-        return new CategoriaDTO(categoria);
+        return new CategoriaResponseDTO(categoria);
     }
 
-    private void copyDtoToCategoria(CategoriaDTO inputDTO, Categoria categoria) {
+    //ATENÇÃO -- passa o REQUEST como parametro
+    private void copyDtoToCategoria(CategoriaRequestDTO inputDTO, Categoria categoria) {
         categoria.setNome(inputDTO.getNome());
     }
 
     @Transactional
-    public CategoriaDTO updateCategoria(Long id, CategoriaDTO inputDTO){
+    //ATENÇÃO -- passa o REQUEST como parametro
+    public CategoriaResponseDTO updateCategoria(Long id, CategoriaRequestDTO inputDTO){
 
         try{
             Categoria categoria = categoriaRepository.getReferenceById(id);
             copyDtoToCategoria(inputDTO, categoria);
             categoria = categoriaRepository.save(categoria);
 
-            return new CategoriaDTO(categoria);
+            return new CategoriaResponseDTO(categoria);
         }catch(EntityNotFoundException ex){
             throw new ResourceNotFoundException("Recurso não encontrado. ID: " + id);
         }

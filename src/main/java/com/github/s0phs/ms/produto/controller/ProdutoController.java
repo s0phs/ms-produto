@@ -1,11 +1,11 @@
 package com.github.s0phs.ms.produto.controller;
 
 
-import com.github.s0phs.ms.produto.dto.ProdutoDTO;
+import com.github.s0phs.ms.produto.dto.ProdutoRequestDTO;
+import com.github.s0phs.ms.produto.dto.ProdutoResponseDTO;
 import com.github.s0phs.ms.produto.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,25 +28,25 @@ public class ProdutoController {
 //    }
 
     @GetMapping
-    public ResponseEntity<List<ProdutoDTO>> getAllProdutos(){
+    public ResponseEntity<List<ProdutoResponseDTO>> getAllProdutos(){
 
-        List<ProdutoDTO> list = produtoService.findAllProdutos();
+        List<ProdutoResponseDTO> list = produtoService.findAllProdutos();
 
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProdutoDTO> getProdutoById(@PathVariable Long id){
+    public ResponseEntity<ProdutoResponseDTO> getProdutoById(@PathVariable Long id){
 
-        ProdutoDTO produtoDTO = produtoService.findProdutoById(id);
+        ProdutoResponseDTO produtoDTO = produtoService.findProdutoById(id);
 
         return ResponseEntity.ok(produtoDTO);
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoDTO> createProduto(@RequestBody @Valid ProdutoDTO produtoDTO){//@Valid para fazer as validações do DTO
+    public ResponseEntity<ProdutoResponseDTO> createProduto(@RequestBody @Valid ProdutoRequestDTO inputDTO){//@Valid para fazer as validações do DTO
 
-        produtoDTO = produtoService.saveProduto(produtoDTO);
+        ProdutoResponseDTO produtoDTO = produtoService.saveProduto(inputDTO);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
@@ -59,9 +59,9 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProdutoDTO> updateProduto(@PathVariable Long id, @RequestBody @Valid ProdutoDTO produtoDTO){
+    public ResponseEntity<ProdutoResponseDTO> updateProduto(@PathVariable Long id, @RequestBody @Valid ProdutoRequestDTO inputDTO){
 
-        produtoDTO = produtoService.updateProduto(id, produtoDTO);
+        ProdutoResponseDTO produtoDTO = produtoService.updateProduto(id, inputDTO);
 
         //.ok = 200
         return ResponseEntity.ok(produtoDTO);

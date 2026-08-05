@@ -1,6 +1,7 @@
 package com.github.s0phs.ms.produto.controller;
 
-import com.github.s0phs.ms.produto.dto.CategoriaDTO;
+import com.github.s0phs.ms.produto.dto.CategoriaRequestDTO;
+import com.github.s0phs.ms.produto.dto.CategoriaResponseDTO;
 import com.github.s0phs.ms.produto.service.CategoriaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +20,26 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping
-    public ResponseEntity<List<CategoriaDTO>> getAllCategorias(){
+    public ResponseEntity<List<CategoriaResponseDTO>> getAllCategorias(){
 
-        List<CategoriaDTO> categorias = categoriaService.findAllCategorias();
+        List<CategoriaResponseDTO> categorias = categoriaService.findAllCategorias();
 
         return ResponseEntity.ok(categorias);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> getCategoriaById(@PathVariable Long id){
-        CategoriaDTO categoriaDTO = categoriaService.findCategoriaById(id);
+    public ResponseEntity<CategoriaResponseDTO> getCategoriaById(@PathVariable Long id){
+        CategoriaResponseDTO categoriaDTO = categoriaService.findCategoriaById(id);
 
         return ResponseEntity.ok(categoriaDTO);
     }
 
     @PostMapping
-    public ResponseEntity<CategoriaDTO> createCategoria(
-            @Valid @RequestBody CategoriaDTO categoriaDTO){
+    //ATENÇÃO -- passa o REQUEST como parametro
+    public ResponseEntity<CategoriaResponseDTO> createCategoria(
+            @Valid @RequestBody CategoriaRequestDTO inputDTO){
 
-        categoriaDTO = categoriaService.saveCategoria(categoriaDTO);
+        CategoriaResponseDTO categoriaDTO = categoriaService.saveCategoria(inputDTO);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
@@ -49,9 +51,11 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> updateCategoria(@PathVariable Long id, @RequestBody @Valid CategoriaDTO categoriaDTO){
+    //ATENÇÃO -- passa o REQUEST como parametro
+    public ResponseEntity<CategoriaResponseDTO> updateCategoria(@PathVariable Long id, @RequestBody @Valid CategoriaRequestDTO inputDTO){
 
-        categoriaDTO = categoriaService.updateCategoria(id, categoriaDTO);
+        CategoriaResponseDTO categoriaDTO = categoriaService.updateCategoria(id, inputDTO);
+
         return ResponseEntity.ok(categoriaDTO);
     }
 
